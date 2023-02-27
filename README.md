@@ -1,6 +1,6 @@
-# listview_builder
+# Simple_calculator
 
-A new Flutter project.
+A simple Flutter application which implements the basic design and functionality of a calculator
 
 ## Getting Started
 
