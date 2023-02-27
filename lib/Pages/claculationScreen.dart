@@ -4,8 +4,12 @@ import 'package:listview_builder/main.dart';
 class claculationScreen extends StatelessWidget {
   final String question;
   final String answer;
+  final String ANS;
   const claculationScreen(
-      {super.key, required this.question, required this.answer});
+      {super.key,
+      required this.question,
+      required this.answer,
+      required this.ANS});
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +19,21 @@ class claculationScreen extends StatelessWidget {
       children: [
         Container(
           alignment: Alignment.topLeft,
-          child: Text(
-            question,
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                ANS,
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(203, 72, 69, 69)),
+              ),
+              Text(
+                question,
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
         ),
         Container(

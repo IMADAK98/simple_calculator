@@ -19,7 +19,6 @@ class Claculations {
       }
     } else if (reg.hasMatch(x)) {
       if (!RegExp('.').hasMatch(a.last)) {
-        print('object');
         a.last += '.0';
       }
       a.add(x);

@@ -38,6 +38,7 @@ class _homePageState extends State<homePage> {
   ];
   String question = '0';
   String answer = '0';
+  String Ans = '  ';
 
   void add(String a) {
     setState(() {
@@ -60,6 +61,15 @@ class _homePageState extends State<homePage> {
       cal.deleteALl();
       question = cal.getString();
       answer = cal.getString();
+    });
+  }
+
+  void onClearScreen() {
+    setState(() {
+      cal.deleteALl();
+      question = cal.getString();
+      answer = cal.getString();
+      Ans = cal.getString();
     });
   }
 
@@ -92,6 +102,7 @@ class _homePageState extends State<homePage> {
                   child: claculationScreen(
                     question: question,
                     answer: answer,
+                    ANS: Ans,
                   )),
               Expanded(
                   flex: 2,
@@ -108,7 +119,7 @@ class _homePageState extends State<homePage> {
                               buttonText: myItems[index],
                               mycolor: Colors.indigo[400],
                               onPress: () => onDeleteAll(),
-                              onLongPress: () => onDeleteAll(),
+                              onLongPress: () => onClearScreen(),
                             );
                             // delete button
                           } else if (index == 1) {
@@ -128,8 +139,12 @@ class _homePageState extends State<homePage> {
                               onPress: () {
                                 if (myItems[index] == '=' && cal.a.isNotEmpty) {
                                   onGetResult();
+                                  Ans = answer;
                                 } else if (myItems[index] == "ANS") {
-                                  question = cal.getResult().toString();
+                                  setState(() {
+                                    question = Ans;
+                                    cal.a.add(Ans);
+                                  });
                                 } else
                                   add(myItems[index]);
                               },
