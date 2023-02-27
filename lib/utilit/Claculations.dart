@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'DivideByZero_erorr.dart';
 
 class Claculations {
   List<String> a = [];
-  final RegExp reg = RegExp("[+\\-x÷%]");
+  final RegExp reg = RegExp("[+\\-x÷=%]");
 
   void add(String x) {
     // check if list is empty and string is not operator
@@ -16,17 +17,14 @@ class Claculations {
       if (!RegExp("[+\\-x÷.%]").hasMatch(x)) {
         a.add(x);
       }
-    } else {
-      if (reg.hasMatch(x)) {
-        if (!RegExp('.').hasMatch(a.last)) {
-          print('object');
-          a.last += '.0';
-        }
-        a.add(x);
-      } else {
-        a.last += x;
+    } else if (reg.hasMatch(x)) {
+      if (!RegExp('.').hasMatch(a.last)) {
+        print('object');
+        a.last += '.0';
       }
-    }
+      a.add(x);
+    } else
+      a.last += x;
   }
 
   double getResult() {
@@ -52,6 +50,9 @@ class Claculations {
         // decrement the counter to 0 to start again
         i--;
       } else if (a[i] == '÷') {
+        if (a[i + 1] == "0") {
+          throw DivideByZeroException();
+        }
         a[i - 1] = "${double.parse(a[i - 1]) / double.parse(a[i + 1])}";
         a.removeAt(i);
         a.removeAt(i);
@@ -71,8 +72,11 @@ class Claculations {
         i--;
       } else if (a[i] == "%") {
         a[i - 1] = (double.parse(a[i - 1]) / 100).toStringAsFixed(3);
-        print([i - 1]);
+        print(a[i - 1]);
         a.removeAt(i);
+        if (a.length != 1) {
+          a.removeAt(i);
+        }
         i--;
       }
     }
@@ -84,11 +88,12 @@ class Claculations {
     String str = '';
     a.forEach((String element) {
       str += element;
+      print(str);
     });
     return str;
   }
 
-  void deletALl() {
+  void deleteALl() {
     a = [];
   }
 

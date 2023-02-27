@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:listview_builder/utilit/DivideByZero_erorr.dart';
 import 'package:listview_builder/utilit/myContainer.dart';
 import 'package:listview_builder/Pages/claculationScreen.dart';
 import 'package:listview_builder/utilit/Claculations.dart';
@@ -32,24 +33,17 @@ class _homePageState extends State<homePage> {
     '+',
     '0',
     '.',
-    'Ans',
+    'ANS',
     '=',
   ];
   String question = '0';
-  String answer = '';
-
-  void onPress(int index) {
-    setState(() {
-      question += myItems[index];
-      (cal.add(question));
-      print(cal.a.last);
-    });
-  }
+  String answer = '0';
 
   void add(String a) {
     setState(() {
       cal.add(a);
       question = cal.getString();
+      answer = cal.getString();
     });
   }
 
@@ -57,21 +51,30 @@ class _homePageState extends State<homePage> {
     setState(() {
       cal.deleteOne();
       question = cal.getString();
+      answer = cal.getString();
     });
   }
 
   void onDeleteAll() {
     setState(() {
-      cal.deletALl();
+      cal.deleteALl();
       question = cal.getString();
       answer = cal.getString();
     });
   }
 
+// get result from CLaculations class
   void onGetResult() {
     setState(() {
-      answer = cal.getResult().toString();
-      question = cal.getString().toString();
+      try {
+        answer = cal.getResult().toString();
+        question = cal.getResult().toString();
+      } on DivideByZeroException {
+        answer = "You can not divide by zero";
+      } finally {
+        // reset the instance
+        cal = new Claculations();
+      }
     });
   }
 
@@ -115,14 +118,18 @@ class _homePageState extends State<homePage> {
                               onPress: () => onDeleteone(),
                             );
                           } else {
+                            // the rest of the buttons
                             return myContainer(
                               buttonText: myItems[index].toString(),
+                              // color the buttons ,, if its an operator give it a different color
                               mycolor: cal.isOperator(myItems[index])
                                   ? Color.fromARGB(255, 119, 94, 167)
                                   : Colors.indigo[200],
                               onPress: () {
                                 if (myItems[index] == '=' && cal.a.isNotEmpty) {
                                   onGetResult();
+                                } else if (myItems[index] == "ANS") {
+                                  question = cal.getResult().toString();
                                 } else
                                   add(myItems[index]);
                               },
